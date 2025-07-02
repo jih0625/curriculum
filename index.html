@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>교육과정 일람표</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #fefefe;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .table {
+      display: grid;
+      grid-template-columns: 160px repeat(4, 1fr);
+      border-collapse: collapse;
+      width: 100%;
+    }
+    .header {
+      font-weight: bold;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+    .label {
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background-color: #f0f0f0;
+    }
+    .span-2-rows {
+      grid-row: span 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .span-3-rows {
+      grid-row: span 3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .span-4-rows {
+      grid-row: span 4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .cell {
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+    .blankcell {
+      padding: 10px;
+      text-align: center;
+      font-size: 2vw;
+      border: 1px solid #ccc;
+    }
+    .korean1 { background-color: #FFC000; }
+    .korean2 { background-color: #FFE699; }
+    .math1 { background-color: #70AD47; }
+    .math2 { background-color: #C5E0B4; }
+    .english1 { background-color: #ED7D31; }
+    .english2 { background-color: #F8CBAD; }
+    .social1 { background-color: #A66BD3; }
+    .social2 { background-color: #E4C9FF; }
+    .social3 { background-color: #F0E1FF; }
+    .science1 { background-color: #5B9BD5; }
+    .science2 { background-color: #BDD7EE; }
+    .science3 { background-color: #E0EFF8; }
+    .info1 { background-color: #CCFF99; }
+    .spanish1 { background-color: #00FFCC; }
+    .spanish2 { background-color: #A3FFED; }
+    .chinese1 { background-color: #FF0000; }
+    .chinese2 { background-color: #FF9393; }
+    .other1 { background-color: #ADB9CA; }
+
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+    .modal.hidden {
+      display: none;
+    }
+    .modal-content {
+      background-color: #fffbe6;
+      width: 90%;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      border-radius: 10px;
+      padding: 20px;
+      position: relative;
+    }
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      font-size: 28px;
+      color: #666;
+      cursor: pointer;
+    }
+    .modal-content ul {
+      list-style: none;
+      padding-left: 1em;
+    }
+    .modal-content ul li::before {
+      content: "\2022";
+      color: #f7a800;
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+    .warning {
+      background-color: #ffe6e6;
+      color: #cc0000;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .table {
+        grid-template-columns: 120px repeat(4, 1fr);
+      }
+      .header {
+        font-size: 2vw;
+      }
+      .label {
+        font-size: 2vw;
+      }
+      .cell {
+        font-size: 2vw;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<h1>교육과정 일람표</h1>
+<div class="table">
+  <div class="header">필수 과목</div>
+  <div class="header">2학년 1학기</div>
+  <div class="header">2학년 2학기</div>
+  <div class="header">3학년 1학기</div>
+  <div class="header">3학년 2학기</div>
+
+  <div class="label">국어</div>
+  <div class="cell korean1" onclick="openSubjectModal('기하')">문학</div>
+  <div class="cell korean1">화법과 언어</div>
+  <div class="cell korean1">독서와 작문</div>
+  <div class="cell korean2">독서 토론과 글쓰기</div>
+
+  <div class="label">수학</div>
+  <div class="cell math1">대수</div>
+  <div class="cell math1">미적분 I</div>
+  <div class="cell math1">확률과 통계</div>
+  <div class="cell math2">실용 통계</div>
+
+  <div class="label">영어</div>
+  <div class="cell english1">영어 I</div>
+  <div class="cell english1">영어 II</div>
+  <div class="cell english1">영어 독해와 작문</div>
+  <div class="cell english2">심화 영어</div>
+
+  <div class="label">체육</div>
+  <div class="cell other1">스포츠 생활1</div>
+  <div class="cell other1">스포츠 생활2</div>
+  <div class="cell other1">스포츠 문화</div>
+  <div class="cell other1">스포츠 과학</div>
+
+  <div class="label">예술</div>
+  <div class="cell other1">음악 연주와 감상</div>
+  <div class="cell other1">미술 창작</div>
+  <div class="cell other1">음악 감상과 비평</div>
+  <div class="cell other1">미술 감상과 비평</div>
+
+  <div class="header">선택 과목</div>
+  <div class="header">택3↓</div>
+  <div class="header">택3↓</div>
+  <div class="header">택4↓</div>
+  <div class="header">택4↓</div>
+
+  <div class="label">국어</div>
+  <div class="cell korean2">주제 탐구 독서</div>
+  <div class="cell korean2">문학과 영상</div>
+  <div class="cell korean2">언어생활 탐구</div>
+  <div class="cell korean2">매체 의사소통</div>
+
+  <div class="label">수학</div>
+  <div class="cell math2">기하</div>
+  <div class="cell math2">수학과제 탐구</div>
+  <div class="cell math2">미적분 II</div>
+  <div class="cell math2">전문 수학</div>
+
+  <div class="label">영어</div>
+  <div class="cell english2">세계 문화와 영어</div>
+  <div class="cell english2">미디어 영어</div>
+  <div class="blankcell"></div>
+  <div class="blankcell"></div>
+
+  <div class="label span-2-rows">일반사회</div>
+  <div class="cell social1 span-2-rows">사회와 문화</div>
+  <div class="cell social2">정치</div>
+  <div class="cell social2">법과 사회</div>
+  <div class="cell social3">금융과 경제생활</div>
+
+  <div class="cell social2">경제</div>
+  <div class="cell social2">국제 관계의 이해</div>
+  <div class="cell social3">사회문제 탐구</div>
+
+  <div class="label span-2-rows">지리</div>
+  <div class="cell social1 span-2-rows">세계시민과 지리</div>
+  <div class="cell social2 span-2-rows">도시의 미래 탐구</div>
+  <div class="cell social2 span-2-rows">한국지리 탐구</div>
+  <div class="cell social3">여행지리</div>
+
+  <div class="cell social3">기후변화와 지속가능한 세계</div>
+
+  <div class="label">역사</div>
+  <div class="cell social1">세계사</div>
+  <div class="cell social2">동아시아 역사 기행</div>
+  <div class="blankcell"></div>
+  <div class="cell social3">역사로 탐구하는 현대 세계</div>
+
+  <div class="label">윤리</div>
+  <div class="cell social1">현대사회와 윤리</div>
+  <div class="cell social2">윤리와 사상</div>
+  <div class="cell social2">인문학과 윤리</div>
+  <div class="cell social3">윤리문제 탐구</div>
+
+  <div class="label span-3-rows">물리</div>
+  <div class="cell science1 span-3-rows">물리학</div>
+  <div class="cell science2 span-3-rows">역학과 에너지</div>
+  <div class="cell science2 span-3-rows">전자기와 양자</div>
+  <div class="cell science3 span-4-rows">과학의 역사와 문화</div>
+
+  <div class="label span-3-rows">화학</div>
+  <div class="cell science1 span-3-rows">화학</div>
+  <div class="cell science2 span-3-rows">화학 반응의 세계</div>
+  <div class="cell science2 span-3-rows">물질과 에너지</div>
+  <div class="cell science3 span-4-rows">기후변화와 환경생태</div>
+
+  <div class="label span-3-rows">생물</div>
+  <div class="cell science1 span-3-rows">생명과학</div>
+  <div class="cell science2 span-3-rows">생물의 유전</div>
+  <div class="cell science2 span-3-rows">세포와 물질대사</div>
+  <div class="cell science3 span-4-rows">융합과학 탐구</div>
+
+  <div class="label span-3-rows">지구과학</div>
+  <div class="cell science1 span-3-rows">지구과학</div>
+  <div class="cell science2 span-3-rows">지구시스템과학</div>
+  <div class="cell science2 span-3-rows">행성우주과학</div>
+
+  <div class="header">선택 과목</div>
+  <div class="header">택1↓</div>
+  <div class="header">택1↓</div>
+  <div class="header">택1↓</div>
+  <div class="header">택1↓</div>
+
+  <div class="label">정보</div>
+  <div class="blankcell"></div>
+  <div class="blankcell"></div>
+  <div class="cell info1">인공지능 기초</div>
+  <div class="cell info1">소프트웨어와 생활</div>
+
+  <div class="label">스페인어</div>
+  <div class="cell spanish1">스페인어</div>
+  <div class="cell spanish2">스페인어 회화</div>
+  <div class="cell spanish2">스페인어권 문화</div>
+  <div class="cell spanish2">심화 스페인어</div>
+
+  <div class="label">중국어</div>
+  <div class="cell chinese1">중국어</div>
+  <div class="cell chinese2">중국어 회화</div>
+  <div class="cell chinese2">중국 문화</div>
+  <div class="cell chinese2">심화 중국어</div>
+</div>
+
+<div id="modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-button" onclick="closeModal()">&times;</span>
+      <h2 id="modal-title"></h2>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <script>
+    let subjectData = {};
+
+    // JSON 파일 불러오기
+    fetch('subject_data.json')
+      .then(res => res.json())
+      .then(data => { subjectData = data });
+
+    function openSubjectModal(subjectName) {
+      const data = subjectData[subjectName];
+      if (!data) return;
+
+      document.getElementById('modal-title').textContent = data.title;
+
+      const html = `
+        <p>${data.description}</p>
+        <ul>${data.list.map(item => `<li>${item}</li>`).join('')}</ul>
+        ${data.warning ? `<div class='warning'>${data.warning}</div>` : ''}
+      `;
+      document.getElementById('modal-body').innerHTML = html;
+      document.getElementById('modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+    }
+
+    // 모달 바깥 영역 클릭 시 닫기
+    document.getElementById('modal').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('modal')) closeModal();
+    });
+  </script>
+
+바닥 텍스트
+
+</body>
+</html>
